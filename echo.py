@@ -2,7 +2,7 @@ from math import ceil
 
 import numpy as np
 
-from audio import reverse
+from timing import reverse
 
 
 def echo(samples, offset=1, decay=0.5, rate=44100):

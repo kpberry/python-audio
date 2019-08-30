@@ -26,13 +26,8 @@ class Audio:
         else:
             raise ValueError(f'Unsupported file type: {extension}')
 
-    def set_samples(self, samples):
-        return self.__class__(samples, rate=self.rate)
-
     def plot(self):
         plt.plot(self.samples)
         plt.show()
 
 
-def reverse(samples):
-    return samples[::-1]
