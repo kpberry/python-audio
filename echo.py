@@ -5,9 +5,8 @@ import numpy as np
 from audio import reverse
 
 
-def echo(audio, offset=1, decay=0.5):
-    samples = audio.samples
-    offset = int(offset * audio.rate)
+def echo(samples, offset=1, decay=0.5, rate=44100):
+    offset = int(offset * rate)
     buffer = np.zeros(offset)
     level = 1 - decay
 
@@ -16,7 +15,7 @@ def echo(audio, offset=1, decay=0.5):
         buffer = samples[start:end] + buffer[:end - start] * level
         samples[start:end] = buffer
 
-    return audio.set_samples(samples)
+    return samples
 
 
 def pre_echo(audio, *echo_args, **echo_kwargs):

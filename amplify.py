@@ -1,10 +1,9 @@
 import numpy as np
 
 
-def amplify(audio, scale=1):
-    return audio.set_samples(audio.samples * scale)
+def amplify(samples, scale=1):
+    return samples * scale
 
 
-def normalize(audio, peak=1):
-    unit_normalized = audio.samples / np.max(np.abs(audio.samples))
-    return audio.set_samples((unit_normalized * peak))
+def normalize(samples, new_peak=1):
+    return samples * new_peak / np.max(np.abs(samples))

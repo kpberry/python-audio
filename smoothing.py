@@ -11,6 +11,6 @@ def quad_interpolate(a, b, c, t):
     return lerp(ab, bc, t)
 
 
-def muffle(audio):
-    lerped = lerp(audio.samples[:-1], audio.samples[1:], 0.5)
-    return audio.set_samples(np.concatenate([audio.samples[0:1], lerped]))
+def muffle(samples):
+    lerped = lerp(samples[:-1], samples[1:], 0.5)
+    return np.concatenate([samples[0:1], lerped])

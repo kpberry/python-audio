@@ -34,5 +34,5 @@ class Audio:
         plt.show()
 
 
-def reverse(audio):
-    return audio.set_samples(audio.samples[::-1])
+def reverse(samples):
+    return samples[::-1]
