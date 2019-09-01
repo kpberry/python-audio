@@ -17,4 +17,27 @@ def change_speed(samples, factor=2.):
     quotients = np.arange(0, len(result)) * factor
     indices = np.floor(quotients).astype(np.int)
 
-    return lerp(samples[indices[:-1]], samples[indices[1:]], np.mod(quotients[:-1], 1))
+    stride = ceil(1 / factor)
+    interpolation = np.mod(quotients[:-stride], 1)
+
+    lefts = indices[:-stride]
+    rights = lefts + 1
+    return lerp(samples[lefts], samples[rights], interpolation)
+
+
+def change_speed2(samples, factor=2.):
+    result = np.zeros(ceil(len(samples) / factor))
+    quotients = np.linspace(0, len(samples) - 1, len(result))
+    indices = np.floor(quotients).astype(np.int)
+    interpolations = np.mod(quotients, 1)
+    for i, (left, interp) in enumerate(zip(indices[:-1], interpolations)):
+        result[i] = lerp(samples[left], samples[left + 1], interp)
+    return result
+
+
+def change_speed_square(samples, factor=2.):
+    result = np.zeros(ceil(len(samples) / factor))
+    quotients = np.arange(0, len(result)) * factor
+    indices = np.floor(quotients).astype(np.int)
+
+    return samples[indices]
