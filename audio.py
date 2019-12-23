@@ -34,3 +34,13 @@ class Audio:
     def plot(self):
         plt.plot(self.samples)
         plt.show()
+
+    def __add__(self, other):
+        if not isinstance(other, Audio):
+            raise TypeError('Audio can only be added to other Audio objects.')
+
+        if self.rate != other.rate:
+            raise ValueError(f'Audio samples must have the same rates to be added. '
+                             f'Found mismatched rates: {self.rate} and {other.rate}.')
+
+        return Audio(self.samples + other.samples, rate=self.rate)
