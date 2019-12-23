@@ -1,8 +1,8 @@
 import pathlib
 
+import matplotlib.pyplot as plt
 import numpy as np
 from scipy.io.wavfile import read as wav_read, write as wav_write
-import matplotlib.pyplot as plt
 
 
 class Audio:
@@ -15,6 +15,11 @@ class Audio:
         extension = path.suffix
         if extension == '.wav':
             rate, samples = wav_read(str(path))
+            # TODO handle stereo reading properly
+            try:
+                samples = np.mean(samples, axis=1)
+            except IndexError:
+                pass
             return cls(samples, rate)
         else:
             raise ValueError(f'Unsupported file type: {extension}')
@@ -29,5 +34,3 @@ class Audio:
     def plot(self):
         plt.plot(self.samples)
         plt.show()
-
-
