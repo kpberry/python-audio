@@ -27,7 +27,7 @@ class Audio:
     def write(self, path: pathlib.Path):
         extension = path.suffix
         if extension == '.wav':
-            wav_write(str(path), self.rate, self.samples.astype(np.short))
+            wav_write(str(path), self.rate, self.samples)
         else:
             raise ValueError(f'Unsupported file type: {extension}')
 
