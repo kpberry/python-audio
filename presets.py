@@ -1,5 +1,10 @@
+import numpy as np
+
+from amplify import normalize
 from distortion import clip_distortion, tanh_distortion
 from echo import echo, pre_echo
+from raytracing import make_box, Point, Sphere, profile_room
+from reverb import kernel_reverb
 
 from smoothing import muffle
 
@@ -23,3 +28,11 @@ def muffle_distortion(samples):
     for i in range(8):
         samples = muffle(samples)
     return samples
+
+
+def cathedral_reverb(samples):
+    room = make_box(100, 100, 100, Point(0, 0, 0), True)
+    speaker = Point(50, 95, 5)
+    microphone = Sphere(Point(50, 95, 95), 5)
+    _kernel = np.array(profile_room(room, speaker, microphone, samples=100000, bounces=100, decay=0.05, max_delay=10))
+    return normalize(kernel_reverb(samples, _kernel))
