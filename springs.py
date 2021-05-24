@@ -1,6 +1,8 @@
 from typing import Any
 
 import numpy as np
+from matplotlib import pyplot as plt
+from tqdm import tqdm
 
 
 class PointMass:
@@ -86,3 +88,15 @@ class FastSpringChain(SpringChain):
 
     def get_force_at_right(self):
         return self.masses[-1][0] * self.masses[-1][4]
+
+
+def plot_spring_impulse_simulation(chain: SpringChain, steps=1000, impulse=1):
+    chain.apply_force_left(impulse)
+    xs = [[] for _ in range(len(chain.masses))]
+    for _ in tqdm(range(steps)):
+        chain.act()
+        for i, mass in enumerate(chain.masses):
+            xs[i].append(chain.get_mass(i).x)
+    for x in xs:
+        plt.plot(x)
+    plt.show()
