@@ -1,4 +1,5 @@
 import pathlib
+from typing import Union
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -11,7 +12,8 @@ class Audio:
         self.rate = rate
 
     @classmethod
-    def read(cls, path: pathlib.Path) -> 'Audio':
+    def read(cls, path: Union[pathlib.Path, str]) -> 'Audio':
+        path = pathlib.Path(path)
         extension = path.suffix
         if extension == '.wav':
             rate, samples = wav_read(str(path))
@@ -24,7 +26,8 @@ class Audio:
         else:
             raise ValueError(f'Unsupported file type: {extension}')
 
-    def write(self, path: pathlib.Path):
+    def write(self, path: Union[pathlib.Path, str]):
+        path = pathlib.Path(path)
         extension = path.suffix
         if extension == '.wav':
             wav_write(str(path), self.rate, self.samples)
